@@ -14,7 +14,10 @@
 #' in \code{df} to be used as factors
 #'
 #' @return
-#' A \code{data.frame} with the following columns
+#' A list with the results data frame in \code{results} and inputs in \code{input}.
+#'
+#' @examples
+#' out <- screen_aov(mtcars, c("cyl", "disp"), c("wt"))
 #'
 #' @export
 screen_aov <- function(df, responses, factors) {
@@ -28,11 +31,81 @@ screen_aov <- function(df, responses, factors) {
   }
 
   # Check responses and factors in columns of df
-  if (!(responses %in% names(df))) {
+  if (!all(responses %in% names(df))) {
     stop("responses not in columns of df")
-  } else if (!(factors %in% names(df))) {
+  } else if (!all(factors %in% names(df))) {
     stop("factors not in columns of df")
   }
 
+  # Get rid of duplicates
+  responses <- unique(responses)
+  factors   <- unique(factors)
 
+  # Loop over responses and factors
+  df_out <- lapply(responses, function(res) {
+    out <- lapply(factors, function(fac) {
+      # Truncate
+      df_temp <- df[,c(res, fac)]
+      df_temp <- na.omit(df_temp)
+
+      # If nrow < 1
+      if (nrow(df_temp) < 1) {
+        N                <- NA
+        Pval             <- NA
+        `SS Residual`    <- NA
+        `SS Factor`      <- NA
+        `Response Mean`  <- NA
+        `Response Sd`    <- NA
+        `Factor Mean`    <- NA
+        `Factor Sd`      <- NA
+      } else {
+        # Model
+        mod <- aov(as.formula(paste(res, fac, sep = "~")), data = df_temp)
+
+        # Summary
+        N                <- nrow(df_temp)
+        Pval             <- unlist(summary(mod))["Pr(>F)1"]
+        `SS Residual`    <- sum(mod$residuals^2)
+        `SS Factor`      <- sum(mod$effects[2]^2)
+        `Response Mean`  <- mean(df_temp[, res])
+        `Response Sd`    <- sd(df_temp[, res])
+        `Factor Mean`    <- mean(df_temp[, fac])
+        `Factor Sd`      <- sd(df_temp[, fac])
+      }
+
+      # Error Catching
+      Pval <- if (is.na(Pval)) NA else Pval
+
+      out <- data.frame(
+        Response        = res,
+        Factor          = fac,
+        N               = N,
+        Pval            = Pval,
+        `SS Residual`   = `SS Residual`,
+        `SS Factor`     = `SS Factor`,
+        `Response Mean` = `Response Mean`,
+        `Response Sd`   = `Response Sd`,
+        `Factor Mean`   = `Factor Mean`,
+        `Factor Sd`     = `Factor Sd`,
+        stringsAsFactors = FALSE)
+
+      row.names(out) <- NULL
+
+      return(out)
+    })
+    out <- do.call(rbind, out)
+  })
+
+  df_out     <- do.call(rbind, df_out)
+  out        <- list(
+    results = df_out,
+    input   = list(df = df, responses = responses, factors = factors))
+
+  class(out) <- c("screen_aov")
+  return(out)
+}
+
+#' @export
+print.screen_aov <- function(obj) {
+  print(obj$results)
 }

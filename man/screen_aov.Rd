@@ -16,11 +16,15 @@ in \code{df} to be used as responses}
 in \code{df} to be used as factors}
 }
 \value{
-A \code{data.frame} with the following columns
+A list with the results data frame in \code{results} and inputs in \code{input}.
 }
 \description{
 Use ANOVA to screen variables to factors
 }
 \details{
 \code{screen_aov} uses \code{aov} to screen responses against factors one to one
+}
+\examples{
+out <- screen_aov(mtcars, c("cyl", "disp"), c("wt"))
+
 }
