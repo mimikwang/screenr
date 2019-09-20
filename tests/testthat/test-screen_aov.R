@@ -5,7 +5,7 @@ test_that("Normal", {
   out <- screen_aov(mtcars, c("cyl"), c("disp", "mpg"))
   expect_s3_class(out, "screen_aov")
   expect_equal(nrow(out$results), 2)
-  expect_equal(ncol(out$results), 10)
+  expect_equal(ncol(out$results), 12)
   expect_error(screen_aov(data.frame(x = as.numeric(), y = as.numeric()), "x", "y"), NA)
   expect_error(print(screen_aov(mtcars, "cyl", "mpg")), NA)
 })
