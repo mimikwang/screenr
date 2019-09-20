@@ -20,26 +20,12 @@
 #' out <- screen_aov(mtcars, c("cyl", "disp"), c("wt"))
 #'
 #' @export
-screen_aov <- function(df, responses, factors) {
-  # Check for correct input types
-  if (class(df) != 'data.frame') {
-    stop("df not of type data.frame")
-  } else if (class(responses) != 'character') {
-    stop("responses not of type character")
-  } else if (class(factors) != 'character') {
-    stop("factors not of type character")
-  }
-
-  # Check responses and factors in columns of df
-  if (!all(responses %in% names(df))) {
-    stop("responses not in columns of df")
-  } else if (!all(factors %in% names(df))) {
-    stop("factors not in columns of df")
-  }
-
-  # Get rid of duplicates
-  responses <- unique(responses)
-  factors   <- unique(factors)
+screen_aov <- function(df, responses, factors = NULL) {
+  # Checks
+  checks    <- .check_inputs(df, responses, factors)
+  df        <- checks$df
+  responses <- checks$responses
+  factors   <- checks$factors
 
   # Loop over responses and factors
   df_out <- lapply(responses, function(res) {

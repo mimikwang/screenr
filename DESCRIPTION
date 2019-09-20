@@ -1,14 +1,16 @@
 Package: screenr
 Type: Package
-Title: Screen Multiple Responses and Factors with aov
+Title: Screen Multiple Responses and Factors
 Version: 0.1.0
-Author: Mimi Wang <mimikwang@gmail.com>
+Authors@R: person("Mimi", "Wang", email = "mimikwang@gmail.com", role = c("aut", "cre"))
 Maintainer: Mimi Wang <mimikwang@gmail.com>
-Description: screenr helps with screening various responses and factors with
-    aov, lm, etc.
+Description: Screen various responses and factors one to one with
+    ANOVA and linear regression.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Suggests:
     testthat
+URL: http://github.com/mimikwang/screenr
+BugReports: http://github.com/mimikwang/screenr/issues

@@ -4,7 +4,7 @@
 \alias{screen_aov}
 \title{screen_aov}
 \usage{
-screen_aov(df, responses, factors)
+screen_aov(df, responses, factors = NULL)
 }
 \arguments{
 \item{df, }{data.frame, a \code{data.frame} with factors and responses as columns}
