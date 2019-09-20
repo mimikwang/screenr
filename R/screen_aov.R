@@ -124,6 +124,6 @@ screen_aov <- function(df, responses, factors) {
 
 #' @method print screen_aov
 #' @export
-print.screen_aov <- function(obj) {
-  print(obj$results)
+print.screen_aov <- function(x, ...) {
+  print(x$results, ...)
 }

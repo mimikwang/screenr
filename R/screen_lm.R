@@ -104,6 +104,6 @@ screen_lm<- function(df, responses, factors) {
 
 #' @method print screen_lm
 #' @export
-print.screen_lm <- function(obj) {
-  print(obj$results)
+print.screen_lm <- function(x, ...) {
+  print(x$results, ...)
 }
