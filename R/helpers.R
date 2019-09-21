@@ -11,7 +11,7 @@
   if (is.null(factors)) {
     col_select <- sapply(colnames(df), function(x) { is.numeric(df[x][[1]]) })
     factors    <- colnames(df)[col_select]
-    factors    <- factors[!(factors %in% response)]
+    factors    <- factors[!(factors %in% responses)]
   }
 
   # Check responses and factors in columns of df

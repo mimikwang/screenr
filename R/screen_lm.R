@@ -19,6 +19,7 @@
 #' @examples
 #' out <- screen_lm(mtcars, c("cyl", "disp"), c("wt"))
 #'
+#' @importFrom stats as.formula coef lm na.omit sd
 #' @export
 screen_lm<- function(df, responses, factors) {
   # Checks

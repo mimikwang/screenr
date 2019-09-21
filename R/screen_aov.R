@@ -19,6 +19,8 @@
 #' @examples
 #' out <- screen_aov(mtcars, c("cyl", "disp"), c("wt"))
 #'
+#' @importFrom stats aov as.formula na.omit sd shapiro.test
+#'
 #' @export
 screen_aov <- function(df, responses, factors = NULL) {
   # Checks
